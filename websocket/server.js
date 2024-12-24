@@ -2,15 +2,14 @@ const WebSocket = require('ws');
 
 const server = new WebSocket.Server({ port: 8080 });
 
-server.on('connection', (ws) => {
+server.on('connection', (socket) => {
     console.log('Client connected');
 
-    ws.on('message', (message) => {
-        console.log('Received message:', message);
-        ws.send('Real time data');
+    socket.on('message', (message) => {
+        console.log(`Received: ${message}`);
+        // Send real-time data back to client
+        socket.send('Real-time data from IoT device');
     });
 
-    ws.on('close', () => {
-        console.log('Client disconnected');
-    });
-})
+    socket.on('close', () => console.log('Client disconnected'));
+});
